@@ -37,7 +37,7 @@ echo $?
 
 
 echo -e "${hs} Compile Application Code ${he}" | tee -a ${log_file}
-go mod tidy
+go mod tidy &>>${log_file}
 CGO_ENABLED=0 go build -o /app/${component_name} . &>>${log_file}
 echo $?
 
