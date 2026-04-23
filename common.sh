@@ -4,7 +4,10 @@ he="<<<<<<<<<<<<<<< \e[0m"
 
 app_pre_reqs() {
   echo -e "${hs} Create Application User ${he}" | tee -a ${log_file}
-  useradd -r -s /bin/false appuser &>>${log_file}
+  id appuser &>>${log_file}
+  if [ $? -eq 1 ]; then
+    useradd -r -s /bin/false appuser &>>${log_file}
+  fi
   status_check
 
   echo -e "${hs} Copy SystemD Service file ${he}" | tee -a ${log_file}
