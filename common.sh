@@ -91,10 +91,10 @@ schema_load() {
       status_check
 
       echo -e "${hs} Load Schema, App User, & Master Data ${he}" | tee -a ${log_file}
-      mysql -h mysql-dev.rdevopsb89.online -u root -pRoboShop@1 < db/schema.sql &>>${log_file}
-      mysql -h mysql-dev.rdevopsb89.online -u root -pRoboShop@1 < db/app-user.sql &>>${log_file}
-      mysql -h mysql-dev.rdevopsb89.online -u root -pRoboShop@1 ${component_name} < db/master-data.sql &>>${log_file}
-      status_check
+      for file in $schema_files; do
+        mysql -h mysql-dev.rdevopsb89.online -u root -pRoboShop@1 < db/$file &>>${log_file}
+        status_check
+      done
     fi
   fi
 }

@@ -3,6 +3,7 @@ component_name=catalogue
 echo Log file Output : ${log_file}
 schema_load=true
 schema_type=mysql
+schema_files="schema.sql app-user.sql master-data.sql"
 
 golang_app
 
