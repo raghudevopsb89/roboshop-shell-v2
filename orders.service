@@ -1,0 +1,23 @@
+[Unit]
+Description=RoboShop Orders Service
+After=network.target
+
+[Service]
+Type=simple
+User=appuser
+WorkingDirectory=/app
+ExecStart=java -jar /app/orders.jar
+Restart=on-failure
+RestartSec=10
+SyslogIdentifier=orders
+
+Environment=MONGO_URL=mongodb://mongodb-dev.rdevopsb89.online:27017/orders
+Environment=AMQP_HOST=rabbitmq-dev.rdevopsb89.online
+Environment=AMQP_USER=roboshop
+Environment=AMQP_PASS=RoboShop@1
+Environment=SHIPPING_URL=http://shipping-dev.rdevopsb89.online:8004
+Environment=NOTIFICATION_URL=http://notification-dev.rdevopsb89.online:8008
+Environment=PORT=8007
+
+[Install]
+WantedBy=multi-user.target

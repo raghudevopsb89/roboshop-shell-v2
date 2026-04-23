@@ -75,6 +75,35 @@ golang_app() {
   systemd_service
 }
 
+java_app() {
+  app_pre_reqs
+
+  echo -e "${hs} Install Java & Maven ${he}" | tee -a ${log_file}
+  dnf install -y java-21-openjdk java-21-openjdk-devel maven &>>${log_file}
+  status_check
+
+  echo -e "${hs} Build Application Code ${he}" | tee -a ${log_file}
+  mvn clean package -DskipTests &>>${log_file}
+  cp target/${component_name}.jar /app/${component_name}.jar &>>${log_file}
+  status_check
+
+  systemd_service
+}
+
+python_app() {
+  app_pre_reqs
+
+  echo -e "${hs} Install Python & Pip ${he}" | tee -a ${log_file}
+  dnf install -y python3 python3-pip &>>${log_file}
+  status_check
+
+  echo -e "${hs} Install App Dependencies ${he}" | tee -a ${log_file}
+  pip3 install -r requirements.txt ${extra_pip_packages} &>>${log_file}
+  status_check
+
+  systemd_service
+}
+
 status_check() {
   if [ $? -eq 0 ]; then
     echo -e "\e[32m SUCCESS \e[0m"
